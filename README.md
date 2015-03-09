@@ -11,9 +11,9 @@ The user selects a column from the database. The app displays the 100 most commo
 
 ### Stack chosen
 
-Backend: Flask (Python)
+Backend: Python (Flask, NumPy)
 
-Frontend: AngularJS
+Frontend: AngularJS, Bootstrap
 
 
 ### Dependencies
@@ -29,6 +29,18 @@ Frontend: AngularJS
 - A user can also upload his own database via the web interface
 - Query's can be made on any of the database, tables and columns available
 - No internet connection needed, all needed dependencies are in the /static folder
+- API-like communication between the client and the server
+	- GET /database/
+		- returns list of available database
+	- POST /database/
+		- returns list of available database
+	- GET /database/<db_name>/
+		- returns list of tables in the database
+	- GET /database/<db_name>/<table_name>/
+		- returns list of columns in the database
+	- GET /database/<db_name>/<table_name>/<col_name>/
+		- returns column data
+
 
 
 ## Run

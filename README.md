@@ -42,6 +42,15 @@ Frontend: AngularJS, Bootstrap
 		- returns column data
 
 
+### Future Improvements
+
+- Performance
+	- in the final step, it takes between 3 to 5 seconds to compute the data
+	- this time delay comes mostly from the SELECT query (2-3 seconds minimum)
+	- is Python the fastest to manipulate the data arrays & make the calculations ? Hadoop MapReduce ?
+- Make a more robust API
+	- extensibility
+	- change and update the database more easily
 
 ## Run
 

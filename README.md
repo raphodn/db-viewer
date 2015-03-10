@@ -34,11 +34,11 @@ Frontend: AngularJS, Bootstrap
 		- returns list of available database
 	- POST /database/
 		- returns list of available database
-	- GET /database/<db_name>/
+	- GET /database/[db_name]/
 		- returns list of tables in the database
-	- GET /database/<db_name>/<table_name>/
+	- GET /database/[db_name]/[table_name]/
 		- returns list of columns in the database
-	- GET /database/<db_name>/<table_name>/<col_name>/
+	- GET /database/[db_name]/[table_name]/[col_name]/
 		- returns column data
 
 

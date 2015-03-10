@@ -44,6 +44,9 @@ Frontend: AngularJS, Bootstrap
 
 ### Future Improvements
 
+- Clean data beforehand
+	- remove NULL rows
+	- decide if NULL values for the chosen column should be taken into account or not
 - Performance
 	- in the final step, it takes between 3 to 5 seconds to compute the data
 	- this time delay comes mostly from the SELECT query (2-3 seconds minimum)

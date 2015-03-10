@@ -26,14 +26,21 @@ dbapp.controller("MainController", ['$scope', 'dbFactory', '$activityIndicator',
 	$scope.showTable = false;
 
 	
-	//init
+	/*
+	 * initialization
+	 * Get existing database files in the database folder
+	 *
+	*/
+
 	dbFactory.getDatabases()
     .success(function(data) {
     	$scope.databases = data['databases'];
     })
     .error(function(error) {
+    	alert(error['message']);
     	console.log(error);
     })
+
 
 
 
@@ -52,6 +59,7 @@ dbapp.controller("MainController", ['$scope', 'dbFactory', '$activityIndicator',
 	    		$scope.working_database_tables = data['tables'];
 	    	})
 	    	.error(function(error) {
+	    		alert(error['message']);
 	    		console.log(error);
 	    	})
 	    }
@@ -87,6 +95,9 @@ dbapp.controller("MainController", ['$scope', 'dbFactory', '$activityIndicator',
 	};
 
 
+
+
+
 	/*
 	 * STEP 2
 	 * Select a table to work with
@@ -101,6 +112,7 @@ dbapp.controller("MainController", ['$scope', 'dbFactory', '$activityIndicator',
 	    		$scope.working_database_table_columns = data['columns'];
 	    	})
 	    	.error(function(error) {
+	    		alert(error['message']);
 	    		console.log(error);
 	    	})
 	    }
@@ -115,6 +127,13 @@ dbapp.controller("MainController", ['$scope', 'dbFactory', '$activityIndicator',
 	 * STEP 3
 	 * Select a column to work with
 	*/
+
+	//store for each column variable the column value, value count & average age
+	$scope.columnData = [];
+	//the total number of values for this column
+	$scope.columnDataFullLength = 0;
+	//the number of clipped rows if any
+	$scope.columnDataMissingRows = 0;
 
 
     $scope.columnSelected = function() {
@@ -132,6 +151,7 @@ dbapp.controller("MainController", ['$scope', 'dbFactory', '$activityIndicator',
 	    	})
 	    	.error(function(error) {
 	    		$activityIndicator.stopAnimating();
+	    		alert(error['message']);
 	    		console.log(error);
 	    	})
 	    }
@@ -141,10 +161,14 @@ dbapp.controller("MainController", ['$scope', 'dbFactory', '$activityIndicator',
 
 
 
+
+
 	$scope.reset = function() {
 		$scope.workingData = {};
 		$scope.showTable = false;
 	};
+
+
 
 
 }]); //end of MainController

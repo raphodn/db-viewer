@@ -28,8 +28,10 @@ databases_list = []
 # get existing databases files in the folder on first run
 databases_list = [ f for f in listdir(DATABASES_FOLDER) if isfile(join(DATABASES_FOLDER,f)) ]
 
-
-
+try:
+	databases_list.remove('_store_databases_here.txt')
+except:
+	pass
 
 # 
 # Database manipulation functions

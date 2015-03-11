@@ -11,7 +11,7 @@ The user selects a column from the database. The app displays the 100 most commo
 
 ### Stack chosen
 
-Backend: Python (Flask, NumPy)
+Backend: Python (Flask, NumPy, Pandas)
 
 Frontend: AngularJS, Bootstrap
 
@@ -21,11 +21,13 @@ Frontend: AngularJS, Bootstrap
 - Python 2.7
 	- Flask
 	- NumPy
+	- Pandas
 
 
 ### Functionnalities
 
 - On launch, the app will go through the /database folder and get existing files (make sure they are legit db files)
+- Data retrieved from the database is cleaned (remove NULL rows)
 - A user can also upload his own database via the web interface
 - Query's can be made on any of the database, tables and columns available
 - No internet connection needed, all needed dependencies are in the /static folder
@@ -44,9 +46,6 @@ Frontend: AngularJS, Bootstrap
 
 ### Future Improvements
 
-- Clean data beforehand
-	- remove NULL rows
-	- decide if NULL values for the chosen column should be taken into account or not
 - Performance
 	- in the final step, it takes between 3 to 5 seconds to compute the data
 	- this time delay comes mostly from the SELECT query (2-3 seconds minimum)

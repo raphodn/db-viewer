@@ -2,12 +2,12 @@ import os
 import sqlite3
 from os import listdir
 from os.path import isfile, join
-from flask import Flask, g, request, render_template, Response
+from flask import Flask, g, request, render_template
 from flask.json import jsonify
 from werkzeug import secure_filename
 from datetime import datetime
 import numpy as np
-import pandas as pd
+
 
 
 
@@ -174,34 +174,80 @@ def column_data(db_name, table_name, col_name):
 	if not check_db_exists(db_name):
 		return make_error(400, 1, 'database does not exist')
 	else:
+		print()
 		# query database
 		value_query = query_db(db_name, "SELECT [" + col_name + "], [age] FROM " + table_name)
 
-		# put the query result in a pandas DataFrame
-		df = pd.DataFrame(value_query, columns=list('xy'))
+		# sort query result by selected column value
+		tmp = np.array(value_query)
+		a = tmp[np.argsort(tmp[:, 0])]
 
-		# clean data (remove NULL rows)
-		df_cleaned = df.dropna(how='all')
+		# iterate through result
+		# - group by value
+		# - count value appearance
+		# - calculate age average
 
-		# group by x (selected col_name)
-		df_grouped = df_cleaned.groupby('x').agg({"x": np.size, "y": np.mean})
+		# store current column value
+		val = a[0][0]
 
-		# sort by x (selected col_name), descending
-		df_sorted = df_grouped.sort('x', ascending=False)
+		# store value appearances
+		count = 0
 
-		# total number of different values for the selected column
-		length = len(df_sorted.index)
+		# store the age corresponding to each appearance
+		age = []
+		age_mean = None
 
-		# total number of different rows for the selected column
-		total_rows = df_sorted['x'].sum()
+		# 2d array, store data of each distinct column value
+		b = []
 
-		# if length > 100, then send to the client only the 100 top values, and calculate the number of clipped rows
+		for x in range(0, len(a)):
+			if (val == a[x][0]):
+				count += 1
+				if (a[x][1] != None):
+					age.append(a[x][1])
+			else:
+				# we moved to a new column value
+				# store data from the previous value
+				age_mean = None
+				if (len(age) > 0):
+					age_mean = np.mean(age)
+				b.append([val, int(count), age_mean])
+				# re-initialize for the new value
+				val = a[x][0]
+				count = 1
+				if (a[x][1] != None):
+					age = []
+					age.append(a[x][1])
+				else:
+					age = []
+
+		# save last column value
+		if (len(age) > 0):
+			age_mean = np.mean(age)
+		b.append([val, int(count), age_mean])
+
+
+		# sort by value count (ascending by default)
+		tmp2 = np.array(b)
+		c = tmp2[np.argsort(tmp2[:, 1])]
+		# reverse order (descending)
+		c = c[::-1]
+
+		# total length of array (number of distinct column values)
+		c_length = len(c)
+
+		# calculate the missing rows (if we have to clip the array at 100)
 		missing_rows = 0
-		if (length > 100):
-			#missing_data = df_sorted.iloc[100:]
-			missing_rows = df_sorted.iloc[100:]['x'].sum()
+		if (c_length > 100):
+			for x in range(100, c_length):
+				missing_rows += c[x][1]
 
-		return jsonify({'values_length': length, 'rows_length': int(total_rows), 'missing_rows': int(missing_rows), 'values': df_sorted.iloc[:100].to_dict(orient='split')})
+		# get only the top 100 results
+		c = c[:100]
+
+		return jsonify({'values_length': c_length, 'missing_rows': missing_rows, 'values': c.tolist()})
+
+
 
 
 

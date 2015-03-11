@@ -130,10 +130,11 @@ dbapp.controller("MainController", ['$scope', 'dbFactory', '$activityIndicator',
 
 	//store for each column variable the column value, value count & average age
 	$scope.columnData = [];
-	//the total number of values for this column
-	$scope.columnDataFullLength = 0;
+	//the total number of values & rows for this column
+	$scope.columnValuesFullLength = 0;
+	$scope.columnValuesFullRows = 0;
 	//the number of clipped rows if any
-	$scope.columnDataMissingRows = 0;
+	$scope.columnValuesMissingRows = 0;
 
 
     $scope.columnSelected = function() {
@@ -143,9 +144,11 @@ dbapp.controller("MainController", ['$scope', 'dbFactory', '$activityIndicator',
     		$activityIndicator.startAnimating();
 			dbFactory.getColumnData($scope.workingData.database, $scope.workingData.table, $scope.workingData.column)
 	    	.success(function(data) {
-	    		$scope.columnData = data['values'];
-	    		$scope.columnDataFullLength = data['values_length'];
-	    		$scope.columnDataMissingRows = data['missing_rows'];
+	    		$scope.columnValues = data['values']['index'];
+	    		$scope.columnData = data['values']['data'];
+	    		$scope.columnValuesFullLength = data['values_length'];
+	    		$scope.columnValuesFullRows = data['rows_length'];
+	    		$scope.columnValuesMissingRows = data['missing_rows'];
 	    		$activityIndicator.stopAnimating();
 	    		$scope.showTable = true;
 	    	})

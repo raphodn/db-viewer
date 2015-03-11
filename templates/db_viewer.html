@@ -123,9 +123,10 @@
 						<h4>FINAL TABLE</h4>
 						<p>[[workingData.database]] >> [[workingData.table]] >> [[workingData.column]]</p>
 						<br>
-						<p>Total values: [[columnDataFullLength]]</p>
+						<p>Total values: [[columnValuesFullLength]]</p>
 						<p>Displayed values: [[columnData.length]]</p>
-						<p>Clipped values: [[columnDataFullLength - columnData.length]] <span><small>(Clipped rows: [[columnDataMissingRows]])</small></span></p>
+						<p>Clipped values: [[columnValuesFullLength - columnData.length]]</p>
+						<p><small>(Clipped rows: [[columnValuesMissingRows]] of [[columnValuesFullRows]])</small></p>
 						<br><br>
 						<button class="btn btn-primary" ng-click="reset()">Reset</button>
 					</div>
@@ -140,11 +141,11 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="elem in columnData">
+								<tr ng-repeat="value in columnValues">
 									<td>[[$index + 1]]</td>
-									<td><span ng-if="elem[0]==null">null</span>[[ elem[0] ]]</td>
-									<td>[[ elem[1] ]]</td>
-									<td>[[ elem[2] ]]</td>
+									<td>[[ value ]]</td>
+									<td>[[ columnData[$index][1] ]]</td>
+									<td>[[ columnData[$index][0] ]]</td>
 								</tr>
 							</tbody>
 						</table>

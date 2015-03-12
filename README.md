@@ -33,9 +33,10 @@ Frontend: AngularJS, Bootstrap
 - No internet connection needed, all needed dependencies are in the /static folder
 - API-like communication between the client and the server
 	- GET /database/
-		- returns list of available database
+		- returns list of databases available
 	- POST /database/
-		- returns list of available database
+		- upload a new database to the /databases folder
+		- returns updated list of databases available
 	- GET /database/[db_name]/
 		- returns list of tables in the database
 	- GET /database/[db_name]/[table_name]/
@@ -65,7 +66,7 @@ Frontend: AngularJS, Bootstrap
 
 - Launch the browser
 
-		http://localhost:8000
+		http://localhost:5000
 
 - Step 1: select an existing database, or upload a new one (will go in the folder /databases)
 
